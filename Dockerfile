@@ -30,12 +30,13 @@ ENV TOMCAT_MINOR_VERSION 6.0.44
 RUN wget -q https://archive.apache.org/dist/tomcat/tomcat-${TOMCAT_MAJOR_VERSION}/v${TOMCAT_MINOR_VERSION}/bin/apache-tomcat-${TOMCAT_MINOR_VERSION}.tar.gz && \
     wget -qO- https://archive.apache.org/dist/tomcat/tomcat-${TOMCAT_MAJOR_VERSION}/v${TOMCAT_MINOR_VERSION}/bin/apache-tomcat-${TOMCAT_MINOR_VERSION}.tar.gz.md5 | md5sum -c - && \
     tar zxf apache-tomcat-*.tar.gz && \
-    rm apache-tomcat-*.tar.gz && \
-    mv apache-tomcat* tomcat
+    mv apache-tomcat-${TOMCAT_MINOR_VERSION}/* . && \
+    rm -rf apache-tomcat-*
 
 #MAVEN
 RUN    wget http://apache.mirrors.pair.com/maven/maven-3/3.3.3/binaries/apache-maven-3.3.3-bin.tar.gz
 RUN tar xvf apache-maven-3.3.3-bin.tar.gz
+RUN rm apache-maven-3.3.3-bin.tar.gz
 RUN mv apache-maven-3.3.3  /usr/local/apache-maven
 ENV M2_HOME=/usr/local/apache-maven
 ENV M2=$M2_HOME/bin 
