@@ -34,12 +34,15 @@ RUN wget -q https://archive.apache.org/dist/tomcat/tomcat-${TOMCAT_MAJOR_VERSION
     rm -rf apache-tomcat-*
 
 #MAVEN
-RUN    wget http://apache.mirrors.pair.com/maven/maven-3/3.3.3/binaries/apache-maven-3.3.3-bin.tar.gz
-RUN tar xvf apache-maven-3.3.3-bin.tar.gz
-RUN rm apache-maven-3.3.3-bin.tar.gz
-RUN mv apache-maven-3.3.3  /usr/local/apache-maven
+ENV MAVEN_VERSION_MAJOR 3
+ENV MAVEN_VERSION_MINOR 3.9
+
+RUN    wget http://apache.mirrors.pair.com/maven/maven-${MAVEN_VERSION_MAJOR}/${MAVEN_VERSION_MAJOR}.${MAVEN_VERSION_MINOR}/binaries/apache-maven-${MAVEN_VERSION_MAJOR}.${MAVEN_VERSION_MINOR}-bin.tar.gz
+RUN tar xvf apache-maven-${MAVEN_VERSION_MAJOR}.${MAVEN_VERSION_MINOR}-bin.tar.gz
+RUN rm apache-maven-${MAVEN_VERSION_MAJOR}.${MAVEN_VERSION_MINOR}-bin.tar.gz
+RUN mv apache-maven-${MAVEN_VERSION_MAJOR}.${MAVEN_VERSION_MINOR}  /usr/local/apache-maven
 ENV M2_HOME=/usr/local/apache-maven
-ENV M2=$M2_HOME/bin 
+ENV M2=$M2_HOME/bin
 ENV PATH=$M2:$PATH
 
 CMD  java -version && mvn -version
