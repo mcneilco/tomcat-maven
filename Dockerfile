@@ -6,16 +6,12 @@ USER    root
 RUN		yum install -y wget
 RUN		yum install -y tar
 
-#JAVA (ORACLE JAVA 7)
-ENV JAVA_VERSION_MAJOR 7
-ENV JAVA_VERSION_MINOR 76
-ENV JAVA_VERSION_BUILD 13
-ENV JAVA_PACKAGE       jre
+#JAVA (OPENJDK 8)
+ENV JAVA_VERSION 1.8.0
 
-RUN curl -kLOH "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie"\
-  http://download.oracle.com/otn-pub/java/jdk/${JAVA_VERSION_MAJOR}u${JAVA_VERSION_MINOR}-b${JAVA_VERSION_BUILD}/${JAVA_PACKAGE}-${JAVA_VERSION_MAJOR}u${JAVA_VERSION_MINOR}-linux-x64.rpm && rpm -i ${JAVA_PACKAGE}-${JAVA_VERSION_MAJOR}u${JAVA_VERSION_MINOR}-linux-x64.rpm; rm -f ${JAVA_PACKAGE}-${JAVA_VERSION_MAJOR}u${JAVA_VERSION_MINOR}.rpm;  yum -y clean all
+RUN yum install -y java-1.8.0-openjdk java-1.8.0-openjdk-devel
 
-ENV JAVA_HOME /usr/java/default
+ENV JAVA_HOME /usr/lib/jvm/java
 
 #TOMCAT 6
 ENV CATALINA_HOME /usr/local/tomcat
@@ -24,8 +20,8 @@ RUN mkdir -p "$CATALINA_HOME"
 WORKDIR $CATALINA_HOME
 
 
-ENV TOMCAT_MAJOR_VERSION 6
-ENV TOMCAT_MINOR_VERSION 6.0.44
+ENV TOMCAT_MAJOR_VERSION 7
+ENV TOMCAT_MINOR_VERSION 7.0.79
 
 RUN wget -q https://archive.apache.org/dist/tomcat/tomcat-${TOMCAT_MAJOR_VERSION}/v${TOMCAT_MINOR_VERSION}/bin/apache-tomcat-${TOMCAT_MINOR_VERSION}.tar.gz && \
     wget -qO- https://archive.apache.org/dist/tomcat/tomcat-${TOMCAT_MAJOR_VERSION}/v${TOMCAT_MINOR_VERSION}/bin/apache-tomcat-${TOMCAT_MINOR_VERSION}.tar.gz.md5 | md5sum -c - && \
@@ -35,7 +31,7 @@ RUN wget -q https://archive.apache.org/dist/tomcat/tomcat-${TOMCAT_MAJOR_VERSION
 
 #MAVEN
 ENV MAVEN_VERSION_MAJOR 3
-ENV MAVEN_VERSION_MINOR 3.9
+ENV MAVEN_VERSION_MINOR 5.0
 
 RUN    wget http://apache.mirrors.pair.com/maven/maven-${MAVEN_VERSION_MAJOR}/${MAVEN_VERSION_MAJOR}.${MAVEN_VERSION_MINOR}/binaries/apache-maven-${MAVEN_VERSION_MAJOR}.${MAVEN_VERSION_MINOR}-bin.tar.gz
 RUN tar xvf apache-maven-${MAVEN_VERSION_MAJOR}.${MAVEN_VERSION_MINOR}-bin.tar.gz
