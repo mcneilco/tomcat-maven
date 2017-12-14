@@ -31,7 +31,7 @@ RUN wget -q https://archive.apache.org/dist/tomcat/tomcat-${TOMCAT_MAJOR_VERSION
 
 #MAVEN
 ENV MAVEN_VERSION_MAJOR 3
-ENV MAVEN_VERSION_MINOR 5.0
+ENV MAVEN_VERSION_MINOR 5.2
 
 RUN    wget http://apache.mirrors.pair.com/maven/maven-${MAVEN_VERSION_MAJOR}/${MAVEN_VERSION_MAJOR}.${MAVEN_VERSION_MINOR}/binaries/apache-maven-${MAVEN_VERSION_MAJOR}.${MAVEN_VERSION_MINOR}-bin.tar.gz
 RUN tar xvf apache-maven-${MAVEN_VERSION_MAJOR}.${MAVEN_VERSION_MINOR}-bin.tar.gz
