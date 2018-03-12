@@ -40,5 +40,6 @@ RUN mv apache-maven-${MAVEN_VERSION_MAJOR}.${MAVEN_VERSION_MINOR}  /usr/local/ap
 ENV M2_HOME=/usr/local/apache-maven
 ENV M2=$M2_HOME/bin
 ENV PATH=$M2:$PATH
-
+COPY wait-for-it.sh .
+RUN chmod 755 wait-for-it.sh
 CMD  java -version && mvn -version
