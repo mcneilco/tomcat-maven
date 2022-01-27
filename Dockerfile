@@ -3,7 +3,7 @@ FROM centos:centos8
 USER    root
 
 #UTILITIES
-RUN		dnf install -y wget tar openssl
+RUN dnf install -y wget tar openssl
 
 # NODE
 ENV NPM_CONFIG_LOGLEVEL warn
