@@ -3,8 +3,7 @@ FROM centos:centos8
 USER    root
 
 #UTILITIES
-RUN		dnf install -y wget
-RUN		dnf install -y tar
+RUN		dnf install -y wget tar openssl
 
 # NODE
 ENV NPM_CONFIG_LOGLEVEL warn
@@ -34,12 +33,16 @@ ENV M2=$M2_HOME/bin
 ENV PATH=$M2:$PATH
 RUN mkdir -p "$M2_HOME" && chown runner:runner "$M2_HOME"
 
+# Give the runner ability to add to ca certs, which is required to import selfsigned
+RUN chgrp runner /usr/lib/jvm/java/jre/lib/security/cacerts && \
+    chmod g+w /usr/lib/jvm/java/jre/lib/security/cacerts
+
 USER runner
 WORKDIR $CATALINA_HOME
 
 
 ENV TOMCAT_MAJOR_VERSION 8
-ENV TOMCAT_MINOR_VERSION 8.5.70
+ENV TOMCAT_MINOR_VERSION 8.5.75
 ENV TOMCAT_LISTEN_ADDRESS=0.0.0.0
 
 RUN wget -q https://downloads.apache.org/tomcat/tomcat-${TOMCAT_MAJOR_VERSION}/v${TOMCAT_MINOR_VERSION}/bin/apache-tomcat-${TOMCAT_MINOR_VERSION}.tar.gz && \
